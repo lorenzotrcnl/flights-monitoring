@@ -63,7 +63,7 @@ Wait about 30 seconds and run the following command:
 > curl localhost:8083/connectors/mongodb-connector/status | jq
 ```
 
-If everything is running go ahead with the steps, otherwise see [Troubleshooting](#trouble) section.
+If everything is running go ahead with the steps, otherwise wait about 10 more seconds and retry. If the error persists, see [Troubleshooting](#trouble) section.
 
 3. **Start Grafana-Mongo Proxy**
 
