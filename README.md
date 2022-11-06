@@ -2,12 +2,16 @@
 
 <p align="center">
   <a href="">
-    <img alt="" src="" target="_blank" />
+    <img alt="Repo Size" src="https://img.shields.io/github/repo-size/lorenzotrcnl/flights-monitoring" target="_blank" />
   </a>
   
   <a href="">
-    <img alt="Twitter" src="" target="_blank" />
+    <img alt="Maintenance" src="https://img.shields.io/maintenance/yes/2022" target="_blank" />
   </a>
+  
+  <a href="">
+    <img alt="Maintenance" src="https://img.shields.io/github/contributors/lorenzotrcnl/flights-monitoring" target="_blank" />
+  </a>  
 </p>
 
 ##### Index
