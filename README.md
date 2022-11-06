@@ -2,19 +2,11 @@
 
 <p align="center">
   <a href="">
-    <img alt="downloads" src="https://img.shields.io/npm/dm/readme-md-generator.svg?color=blue" target="_blank" />
+    <img alt="" src="" target="_blank" />
   </a>
+  
   <a href="">
-    <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-yellow.svg" target="_blank" />
-  </a>
-  <a href="">
-    <img src="https://codecov.io/gh/kefranabg/readme-md-generator/branch/master/graph/badge.svg" />
-  </a>
-  <a href="">
-    <img src="https://img.shields.io/badge/changelog-gitmoji-brightgreen.svg" alt="gitmoji-changelog">
-  </a>
-  <a href="">
-    <img alt="Twitter" src="https://img.shields.io/twitter/follow/FranckAAAA.svg?style=social" target="_blank" />
+    <img alt="Twitter" src="" target="_blank" />
   </a>
 </p>
 
