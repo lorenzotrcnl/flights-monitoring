@@ -54,18 +54,17 @@ If everything is running go ahead with the steps, otherwise see [Troubleshooting
 ```
   
 If you want to see the real-time component of the project in action then execute the next two commands. Otherwise skip directly to the 6° step to view the state of the dashboard at the last commit.  
-In the **second** terminal:
   
 4. **Start Spark ReadStream Session**
-  
+
+In the **second** terminal:  
 ``` sh
 > docker exec -it jupyter python spark-submit
 ```
   
-In the **third** terminal:
-  
 5. **Start data ingestion**
-  
+
+In the **third** terminal:  
 ``` sh
 > docker exec -it jupyter python producer.py
 ```
