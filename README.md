@@ -24,6 +24,9 @@
 The following project was developed with the goal of implementing current leading technologies in both batch and real-time data management and analysis. The data source is FlightRadar24, a website that offers real-time flight tracking services. Through an API it is possible to obtain information, in real time, regarding flights around the globe. A dashboard will be developed to allow control over what is happening in a specific area, in addition to general analysis regarding aircrafts and airports.
 The real-time characteristic of the chosen data source motivates the need to set up an architecture that can cope with the large number of data arriving in a short period of time. A lambda-like architecture was developed to make possible the ability to store data and at the same time analyze it in real time. The pipeline consists of several stages, which use current technologies for Real-Time Data Processing.
 All of this was developed in a Docker environment to enable future testing and a total replication of the project.
+
+<img src="project_pipeline.png" alt="demo"/>
+
 <a name="usage"></a>
 
 ## Quickstart
