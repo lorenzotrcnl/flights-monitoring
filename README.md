@@ -1,4 +1,23 @@
 # Flights Monitoring | Lambda-Architecture Implementation (API + KAFKA + SPARK + MONGO + GRAFANA)
+
+<p align="center">
+  <a href="">
+    <img alt="downloads" src="https://img.shields.io/npm/dm/readme-md-generator.svg?color=blue" target="_blank" />
+  </a>
+  <a href="">
+    <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-yellow.svg" target="_blank" />
+  </a>
+  <a href="">
+    <img src="https://codecov.io/gh/kefranabg/readme-md-generator/branch/master/graph/badge.svg" />
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/badge/changelog-gitmoji-brightgreen.svg" alt="gitmoji-changelog">
+  </a>
+  <a href="">
+    <img alt="Twitter" src="https://img.shields.io/twitter/follow/FranckAAAA.svg?style=social" target="_blank" />
+  </a>
+</p>
+
 ##### Index
 
 * [Introduction](#intro)
