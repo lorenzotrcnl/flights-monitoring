@@ -46,7 +46,7 @@ All of this was developed in a Docker environment to enable future testing and a
 
 ## Quickstart
 
-Prepare yourself three active terminals placed in the project folder.
+Prepare yourself three active terminals placed in the project folder.  
 In the **first** one:
 
 1. **Start the containers**
