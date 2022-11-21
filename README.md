@@ -1,6 +1,5 @@
 # Flights Monitoring | Lambda Architecture Implementation (API + KAFKA + SPARK + MONGO + GRAFANA)
 
-<!--
 <p align="center">
   <a href="">
     <img alt="Repo Size" src="https://img.shields.io/github/repo-size/lorenzotrcnl/flights-monitoring" target="_blank" />
@@ -14,7 +13,6 @@
     <img alt="Maintenance" src="https://img.shields.io/github/contributors/lorenzotrcnl/flights-monitoring" target="_blank" />
   </a>  
 </p>
--->
 
 ### Index
 
@@ -231,27 +229,3 @@ In the second case:
 ```
 and retry _curling_.
 </details>
-
-
-
-<!--
-https://github.com/yahoo/CMAK/issues/731
-----------------------------------------------------------
-
-
-----------------------------------------------------------
-Miscellaneous:
-Chartbrew -> https://github.com/chartbrew/chartbrew
-Freeboard -> https://github.com/Freeboard/freeboard
-Freeboard plugin -> https://github.com/Hitachi-Data-Systems/Freeboard-plugin-for-MongoDB
-Real time dashboard -> https://github.com/sophiamyang/real_time_dashboard/blob/main/realtime_dashboard.py
-----------------------------------------------------------
-
-
-----------------------------------------------------------
-Altro:
-https://hub.docker.com/r/pataquets/mongodb-proxy/
-https://github.com/ajeje93/grafana-mongodb-docker/blob/master/Dockerfile
-https://hub.docker.com/r/barisv/grafana-mongo-proxy-server
-----------------------------------------------------------
-->
