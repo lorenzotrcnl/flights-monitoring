@@ -68,6 +68,29 @@ Wait about 30 seconds and run the following command:
 > curl localhost:8083/connectors/mongodb-connector/status | jq
 ```
 
+``` sh
+{
+  "name": "mongodb-connector",
+  "connector": {
+    "state": "RUNNING",
+    "worker_id": "connect:8083"
+  },
+  "tasks": [
+    {
+      "id": 0,
+      "state": "RUNNING",
+      "worker_id": "connect:8083"
+    },
+    {
+      "id": 1,
+      "state": "RUNNING",
+      "worker_id": "connect:8083"
+    }
+  ],
+  "type": "sink"
+}
+```
+
 Make sure you have installed **jq**, otherwise remove it from the command or install it.  
 If everything is running go ahead with the steps, otherwise wait about 10 more seconds and retry. If the error persists, see [Troubleshooting](#trouble) section.
 
@@ -172,6 +195,28 @@ You can interact with the db and related collections in Mongo through two option
 <a name="components"></a>
 
 ## Components
+
+<table>
+  <tr>
+    <td style="width: 50%">
+      <h2>View data with Compass</h2>
+      <img src="misc/compass.png" alt="">
+    </td>
+    <td>
+      <h2>Jupyter UI</h2>
+      <img src="misc/jupyter.png" alt="">
+    </td>
+  </tr>
+    <td style="width: 50%">
+      <h2>Monitoring Spark Jobs</h2>
+      <img src="misc/sparkjobs.png" alt="">
+    </td>
+    <td style="width: 50%">
+      <h2>Live Data Visualization in Grafana</h2>
+      <img src="misc/dashboard.png" alt="">
+    </td>
+</table>
+
 **API**
 
 The project is based on data obtained from the [JeanExtreme002/FlightRadarAPI](https://github.com/JeanExtreme002/FlightRadarAPI), an unofficial API for FlightRadar24 written in Python.
