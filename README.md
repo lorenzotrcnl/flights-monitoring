@@ -198,33 +198,12 @@ You can interact with the db and related collections in Mongo through two option
 
 <table>
   <tr>
-    <td style="width: 50%; height: 100px">
-      <h2>View data with Compass</h2>
-      <img src="misc/compass.png" alt="">
-    </td>
-    <td style="width: 50%">
-      <h2>Jupyter UI</h2>
-      <img src="misc/jupyter.png" alt="">
-    </td>
-  </tr>
-    <td style="width: 50%">
-      <h2>Monitoring Spark Jobs</h2>
-      <img src="misc/sparkjobs.png" alt="">
-    </td>
-    <td style="width: 50%">
-      <h2>Live Data Visualization in Grafana</h2>
-      <img src="misc/dashboard.png" alt="">
-    </td>
-</table>
-
-<table>
-  <tr>
-    <td style="width: 50%"><img src="misc/compass.png"  alt="1" height = 200px></td>
-    <td style="width: 50%"><img src="misc/jupyter.png" alt="2" height = 200px></td>
+    <td style="width: 50%"> <h3>View data with Compass</h3> <img src="misc/compass.png"  alt="1" height = 220px> </td>
+    <td style="width: 50%"> <h3>Jupyter UI</h3> <img src="misc/jupyter.png" alt="2" height = 220px> </td>
    </tr> 
    <tr>
-      <td style="width: 50%"><img src="misc/sparkjobs.png" alt="3" height = 200px></td>
-      <td style="width: 50%"><img src="misc/dashboard.png" alt="4" height = 200px>
+      <td style="width: 50%"> <h3>Monitoring Spark Jobs</h3> <img src="misc/sparkjobs.png" alt="3" height = 220px></td>
+      <td style="width: 50%"> <h3>Live Data Visualization in Grafana</h3> <img src="misc/dashboard.png" alt="4" height = 220px>
   </td>
   </tr>
 </table>
