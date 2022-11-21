@@ -1,0 +1,500 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "grafana-mongodb-datasource",
+        "uid": "P91231FF9AB6685FA"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-purple",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 15,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.1.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-mongodb-datasource",
+            "uid": "P91231FF9AB6685FA"
+          },
+          "rawQuery": true,
+          "refId": "A",
+          "target": "db.distancesRT.aggregate([\n{\"$project\": {\"ts\": \"$window.start\", \"name\": \"$at_zone\", \"value\": \"$avgdistances\", \"_id\": 0}}\n])",
+          "type": "timeserie"
+        }
+      ],
+      "timeFrom": "now-15m",
+      "title": "Average flight distance per zone",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-mongodb-datasource",
+        "uid": "P91231FF9AB6685FA"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "#d6acac",
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 15,
+        "y": 0
+      },
+      "id": 15,
+      "options": {
+        "displayLabels": [
+          "name",
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": false
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-mongodb-datasource",
+            "uid": "P91231FF9AB6685FA"
+          },
+          "rawQuery": true,
+          "refId": "A",
+          "target": "db.fpzRT.aggregate([\n{\"$group\": {\"_id\": {\"ts\": \"$window.start\", \"zone\": \"$at_zone\"}, \"tot\": {\"$sum\": \"$count\"}}},\n{\"$sort\": {\"_id.ts\": -1}},\n{\"$project\": {\"ts\": \"$_id.ts\", \"name\": \"$_id.zone\", \"value\": \"$tot\", \"_id\": 0}}\n])",
+          "type": "timeserie"
+        }
+      ],
+      "title": "Active flights per zone",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-mongodb-datasource",
+        "uid": "P91231FF9AB6685FA"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "purple",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 6
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 22
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-mongodb-datasource",
+            "uid": "P91231FF9AB6685FA"
+          },
+          "rawQuery": true,
+          "refId": "A",
+          "target": "db.flights.aggregate([\n{\"$match\": {\"origin_airport_iata\": {\"$ne\": \"N/A\"}, \"destination_airport_iata\": {\"$ne\": \"N/A\"}}},\n{\"$addFields\": {\"ts\": {\"$substr\": [\"$ts\", 0, 10]}}},\n{\"$addFields\": {\"ts\": {\"$dateFromString\": {\"dateString\": \"$ts\"}}}},\n{\"$group\": {\"_id\": {\"ts\": \"$ts\", \"flid\": \"$id\"}, \"tot\": {\"$sum\": 1}}},\n{\"$group\": {\"_id\": \"$_id.ts\", \"total\": {\"$sum\": \"$tot\"}}},\n{\"$project\": {\"name\": \"day\", \"value\": \"$total\", \"ts\": \"$_id\", \"_id\": 0}},\n{\"$sort\": {\"ts\": -1}},\n{\"$skip\": 1},\n{\"$limit\": 1}\n])",
+          "type": "timeserie"
+        }
+      ],
+      "title": "Flights yesterday",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-mongodb-datasource",
+        "uid": "P91231FF9AB6685FA"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "purple",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 7,
+        "x": 6,
+        "y": 6
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 22
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-mongodb-datasource",
+            "uid": "P91231FF9AB6685FA"
+          },
+          "rawQuery": true,
+          "refId": "A",
+          "target": "db.flights.aggregate([\n{\"$match\": {\"origin_airport_iata\": {\"$ne\": \"N/A\"}, \"destination_airport_iata\": {\"$ne\": \"N/A\"}}},\n{\"$addFields\": {\"ts\": {\"$substr\": [\"$ts\", 0, 10]}}},\n{\"$addFields\": {\"ts\": {\"$dateFromString\": {\"dateString\": \"$ts\"}}}},\n{\"$group\": {\"_id\": {\"id\": \"$id\", \"origin\": \"$origin_airport_iata\"}, \"tot\": {\"$sum\": 1}, \"ts\": {\"$first\": \"$ts\"}}},\n{\"$project\": {\"ts\": \"$ts\", \"origin\": \"$_id.origin\", \"id\": \"$_id.id\", \"tot\": 1, \"_id\": 0}},\n{\"$match\": {\"origin\": {\"$ne\": \"N/A\"}}},\n{\"$group\": {\"_id\": \"$origin\", \"tot\": {\"$sum\": 1}, \"ts\": {\"$first\": \"$ts\"}}},\n{\"$sort\": {\"tot\": -1}},\n{\"$project\": {\"ts\": \"$ts\", \"name\": \"$_id\", \"value\": \"$_id\", \"_id\": 0}},\n{\"$limit\": 1},\n{\"$lookup\": {\"from\": \"airports\", \"localField\": \"name\", \"foreignField\": \"iata\", \"as\": \"fromAir\"}},\n{\"$unwind\": {\"path\": \"$fromAir\"}},\n{\"$project\": {  \"name\": \"$fromAir.name\", \"value\":  \"$fromAir.name\", \"ts\": 1, \"_id\": 0}}\n])",
+          "type": "timeserie"
+        }
+      ],
+      "title": "Most departures from",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-mongodb-datasource",
+        "uid": "P91231FF9AB6685FA"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "purple",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 13,
+        "y": 6
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "limit": 2,
+          "values": true
+        },
+        "text": {
+          "valueSize": 22
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-mongodb-datasource",
+            "uid": "P91231FF9AB6685FA"
+          },
+          "rawQuery": true,
+          "refId": "A",
+          "target": "db.flights.aggregate([\n{\"$match\": {\"origin_airport_iata\": {\"$ne\": \"N/A\"}, \"destination_airport_iata\": {\"$ne\": \"N/A\"}}},\n{\"$addFields\": {\"ts\": {\"$substr\": [\"$ts\", 0, 10]}}},\n{\"$addFields\": {\"ts\": {\"$dateFromString\": {\"dateString\": \"$ts\"}}}},\n{\"$group\": {\"_id\": {\"ts\": \"$ts\", \"craft\": \"$icao_24bit\", \"code\": \"$registration\"}, \"tot\": {\"$sum\": 1}}},\n{\"$project\": {\"ts\": \"$_id.ts\", \"name\": \"$_id.craft\", \"value\": \"$_id.code\",  \"_id\": 0}},\n{\"$match\": {\"craft\": {\"$ne\": \"N/A\"}, \"code\": {\"$ne\": \"N/A\"}}},\n{\"$sort\": {\"value\": -1}},\n{\"$limit\": 1}\n])",
+          "type": "timeserie"
+        }
+      ],
+      "title": "Aircraft most flew",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-mongodb-datasource",
+        "uid": "P91231FF9AB6685FA"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 49,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "name"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 19,
+        "x": 0,
+        "y": 9
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-mongodb-datasource",
+            "uid": "P91231FF9AB6685FA"
+          },
+          "rawQuery": true,
+          "refId": "A",
+          "target": "db.flights.aggregate([\n{\"$match\": {\"origin_airport_iata\": {\"$ne\": \"N/A\"}, \"destination_airport_iata\": {\"$ne\": \"N/A\"}}},\n{\"$addFields\": {\"ts\": {\"$substr\": [\"$ts\", 0, 10]}}},\n{\"$addFields\": {\"ts\": {\"$dateFromString\": {\"dateString\": \"$ts\"}}}},\n{\"$group\": {\"_id\": {\"ts\": \"$ts\", \"flid\": \"$id\", \"line\": \"$airline_icao\"}, \"tot\": {\"$sum\": 1}}},\n{\"$group\": {\"_id\": {\"ts\": \"$_id.ts\", \"line\": \"$_id.line\"}, \"total\": {\"$sum\": \"$tot\"}}},\n{\"$project\": {\"name\": \"$_id.line\", \"value\": \"$total\", \"ts\": \"$_id.ts\", \"_id\": 0}},\n{\"$sort\": {\"value\": -1}},\n{\"$match\": {\"name\": {\"$ne\": \"N/A\"}}}\n])",
+          "type": "timeserie"
+        }
+      ],
+      "title": "Flights count per airline",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-7d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "MAIN",
+  "uid": "hGEny9H4z",
+  "version": 2,
+  "weekStart": ""
+}
