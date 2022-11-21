@@ -1,0 +1,165 @@
+version: "3.7"
+
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - flightnet
+
+  kafka1:
+    image: wurstmeister/kafka
+    container_name: kafka1
+    ports:
+      - "9093:9093"
+    depends_on:
+     - "zookeeper"
+    environment:
+      #KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_LISTENERS: PLAINTEXT://kafka1:9092,CONNECTIONS_FROM_HOST://localhost:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9092,CONNECTIONS_FROM_HOST://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONNECTIONS_FROM_HOST:PLAINTEXT
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka1 -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote.rmi.port=9999"
+    command: "start-kafka.sh && \
+              echo 'CREATING APICALL TOPIC ---------------------------------' && \
+              kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic apicall"
+    networks:
+      - flightnet
+
+  kafka2:
+    image: wurstmeister/kafka
+    container_name: kafka2
+    ports:
+      - "9094:9094"
+    depends_on:
+     - "zookeeper"
+    environment:
+      #KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_LISTENERS: PLAINTEXT://kafka2:9092,CONNECTIONS_FROM_HOST://localhost:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:9092,CONNECTIONS_FROM_HOST://localhost:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONNECTIONS_FROM_HOST:PLAINTEXT
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka2 -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote.rmi.port=9999"
+    networks:
+      - flightnet
+
+  kafka_connect:
+    image: confluentinc/cp-kafka-connect-base
+    container_name: kafka_connect
+    depends_on:
+      - "kafka1"
+      - "kafka2"
+    ports:
+      - "8083:8083"
+    volumes:
+      - "./connect/plugins/:/usr/share/confluent-hub-components/"
+      - "./connect/properties:/tmp/properties"
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: 'kafka1:9092,kafka2:9092'
+      #CONNECT_REST_PORT: "8083"
+      CONNECT_REST_ADVERTISED_HOST_NAME: "connect"
+      CONNECT_GROUP_ID: docker-connect-group
+      CONNECT_CONFIG_STORAGE_TOPIC: docker-connect-configs
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: "1"
+      CONNECT_OFFSET_STORAGE_TOPIC: docker-connect-offsets
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: "1"
+      CONNECT_STATUS_STORAGE_TOPIC: docker-connect-status
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: "1"
+      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_INTERNAL_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
+    command: 
+      - bash
+      - -c
+      - |
+        /etc/confluent/docker/run &
+        echo "Waiting for Kafka Connect to start listening on kafka-connect ⏳"
+        while [ $$(curl -s -o /dev/null -w %{http_code} http://localhost:8083/connectors) -eq 000 ] ; do 
+          echo -e $$(date) " Kafka Connect listener HTTP state: " $$(curl -s -o /dev/null -w %{http_code} http://localhost:8083/connectors) " (waiting for 200)"
+          sleep 5 
+        done
+        echo -e "\n--\n+> Creating Kafka Connect MongoDB sink"
+        curl -X POST -H "Content-Type: application/json" --data @/tmp/properties/mongo_connector_configs.json http://localhost:8083/connectors
+        sleep infinity
+    networks:
+      - flightnet
+ 
+  kafka_manager:
+    image: hlebalbau/kafka-manager:stable
+    container_name: kafka_manager
+    ports:
+      - "9000:9000"
+    environment:
+      ZK_HOSTS: "zookeeper:2181"
+      APPLICATION_SECRET: "random-secret"
+      KAFKA_MANAGER_AUTH_ENABLED: "false"
+      #KAFKA_MANAGER_USERNAME: username
+      #KAFKA_MANAGER_PASSWORD: password
+    command: -Dpidfile.path=/dev/null
+    depends_on:
+      - "zookeeper"
+      - "kafka1"
+      - "kafka2"
+    networks:
+      - flightnet
+
+  jupyter:
+    image: jupyter/pyspark-custom:v1
+    build:
+      context: ./jupyter
+      dockerfile: Dockerfile
+    hostname: jupyter
+    container_name: jupyter
+    ports:
+      - "8889:8888"
+      - "4040:4040"
+    volumes:
+      - ./jupyter/notebooks:/home/jovyan/work
+    environment:
+      - JUPYTER_TOKEN=easy
+    networks:
+      - flightnet
+
+  mongo:
+    image: mongo:3.6
+    hostname: mongodb
+    container_name: mongodb
+    ports:
+      - "27019:27017"
+    volumes:
+      - "./mongo/db:/data/db"
+    #environment:
+    #  MONGO_INITDB_ROOT_USERNAME: "user"
+    #  MONGO_INITDB_ROOT_PASSWORD: "password"
+    networks:
+      - flightnet
+
+  grafana:
+    build:
+      context: ./grafana
+      dockerfile: Dockerfile
+    image: grafana-mongodb-source:v1
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "mongo"
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "password"
+      GF_DEFAULT_APP_MODE: "development"
+      GF_ALLOW_LOADING_UNSIGNED_PLUGINS: "grafana-mongodb-datasource"
+    networks:
+      - flightnet
+
+networks:
+  flightnet:
+    name: flightnet
+    driver: bridge
