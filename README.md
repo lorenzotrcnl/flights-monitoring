@@ -1,6 +1,5 @@
 # Flights Monitoring | Lambda Architecture Implementation (API + KAFKA + SPARK + MONGO + GRAFANA)
 
-<!--
 <p align="center">
   <a href="">
     <img alt="Repo Size" src="https://img.shields.io/github/repo-size/lorenzotrcnl/flights-monitoring" target="_blank" />
@@ -14,7 +13,6 @@
     <img alt="Maintenance" src="https://img.shields.io/github/contributors/lorenzotrcnl/flights-monitoring" target="_blank" />
   </a>  
 </p>
--->
 
 ### Index
 
@@ -51,7 +49,9 @@ All of this was developed in a Docker environment to enable future testing and a
 
 ## Quickstart
 
-```Note: It's recommended having at least 5GB Docker memory allocated. If not change it in the settings.```
+> **Note**: Due to file size limits imposed by Github, collections regarding flights and real-time data has been uploaded empty.
+
+> **Warning**: It's recommended having at least 5GB Docker memory allocated. If not, change it in the settings.
 
 Prepare yourself three active terminals placed in the project folder.  
 In the **first** one:
@@ -71,6 +71,7 @@ Wait about 30 seconds and run the following command:
 ```
 
 ``` sh
+OUTPUT
 {
   "name": "mongodb-connector",
   "connector": {
@@ -101,8 +102,6 @@ If everything is running go ahead with the steps, otherwise wait about 10 more s
 ``` sh
 > docker exec -d grafana npm run server
 ```
-  
-If you want to see the real-time component of the project in action then execute the next two commands. Otherwise skip directly to the 6° step to view the state of the dashboard at the latest commit.  
   
 5. **Start data ingestion**
 
@@ -267,27 +266,3 @@ In the second case:
 ```
 and retry _curling_.
 </details>
-
-
-
-<!--
-https://github.com/yahoo/CMAK/issues/731
-----------------------------------------------------------
-
-
-----------------------------------------------------------
-Miscellaneous:
-Chartbrew -> https://github.com/chartbrew/chartbrew
-Freeboard -> https://github.com/Freeboard/freeboard
-Freeboard plugin -> https://github.com/Hitachi-Data-Systems/Freeboard-plugin-for-MongoDB
-Real time dashboard -> https://github.com/sophiamyang/real_time_dashboard/blob/main/realtime_dashboard.py
-----------------------------------------------------------
-
-
-----------------------------------------------------------
-Altro:
-https://hub.docker.com/r/pataquets/mongodb-proxy/
-https://github.com/ajeje93/grafana-mongodb-docker/blob/master/Dockerfile
-https://hub.docker.com/r/barisv/grafana-mongo-proxy-server
-----------------------------------------------------------
-->
